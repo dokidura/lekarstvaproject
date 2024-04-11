@@ -6,8 +6,8 @@ import time
 TOKEN = '7036140386:AAFroHSqNQzfBKprVWZf8m9kro4XoQM9dFo'
 MSG = 'Напоминание о приеме таблеток!'
 
-bot = Bot(token=TOKEN)
 dp = Dispatcher()
+bot = Bot(token=TOKEN)
 
 @dp.message()
 async def echo_message(message: types.Message):
@@ -28,4 +28,3 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-
