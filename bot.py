@@ -1,30 +1,38 @@
 from aiogram import Bot, Dispatcher, types
-import asyncio
-import logging
-import time
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.filters import Command
+import asyncio, logging
 
-TOKEN = '7036140386:AAFroHSqNQzfBKprVWZf8m9kro4XoQM9dFo'
-MSG = 'Напоминание о приеме таблеток!'
+API_TOKEN = '7036140386:AAEMCWevUvtoeMInDiCi7opdtM_1UerPPgc'
 
+bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
-bot = Bot(token=TOKEN)
 
-@dp.message()
-async def echo_message(message: types.Message):
-    user_id = message.from_user.id
+user_age = {}  # переменная для хранения информации о возрасте пользователя
+
+@dp.message(Command('start'))
+async def start(message: types.Message):
     user_name = message.from_user.first_name
-    user_full_name = message.from_user.full_name
-    logging.info(f'{user_id} {user_full_name} {time.asctime()}')
-    await message.answer(f"Привет, {user_full_name}!")
+    await message.answer(f"Привет, {user_name}! Я бот-напоминалка. Для начала работы, давай определимся с твом возрастом. Напиши /age для ответа.")
 
-    for i in range(3):
-        time.sleep(3)
-        await bot.send_message(user_id, MSG)
+@dp.message(Command('age'))
+async def ask_age(message: types.Message):
+    kb = [
+            [types.KeyboardButton(text="Взрослый")],
+            [types.KeyboardButton(text="Ребенок")]
+        ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=kb)
+    await message.answer("Ты взрослый или ребенок?", reply_markup=keyboard)
+
+@dp.message(lambda message: message.text in ["Взрослый", "Ребенок"])
+async def save_age(message: types.Message):
+    user_age[message.from_user.id] = message.text
+    await message.reply("Отлично! Теперь напиши /record <название таблетки> <количество дней курса>, чтобы запустить систему напоминаний!", reply_markup=types.ReplyKeyboardRemove())
+    await state.finish()
 
 async def main():
     logging.basicConfig(level=logging.INFO)
     await dp.start_polling(bot)
-
 
 if __name__ == '__main__':
     asyncio.run(main())
