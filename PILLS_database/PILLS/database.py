@@ -13,7 +13,7 @@ with sqlite3.connect('database.db') as db:
 
     db.commit()
 
-insert_kids = [
+"""insert_kids = [
     (8, '1 таблетка', 1),
     (9, '10 мл', 2),
     (10, '1 капсула на 100 мл молока', 3),
@@ -29,7 +29,7 @@ insert_adults = [
     (5, '50 капсула', 1),
     (6, '1 таблетка', 1),
     (7, '1 таблетка', 1)
-]
+]"""
 
 with sqlite3.connect('database.db') as db:
     cursor = db.cursor()
@@ -37,8 +37,8 @@ with sqlite3.connect('database.db') as db:
                     VALUES(?,?,?) """
     query5 = """ INSERT INTO adults(id, dosage, doses_per_day) 
                         VALUES(?,?,?) """
-    cursor.executemany(query4, insert_kids)
-    cursor.executemany(query5, insert_adults)
+    #cursor.executemany(query4, insert_kids)
+    #cursor.executemany(query5, insert_adults)
     db.commit()
 
 
