@@ -5,9 +5,11 @@ with sqlite3.connect('database.db') as db:
     query = """ CREATE TABLE IF NOT EXISTS pills(id INTEGER, name TEXT, cost INTEGER, link TEXT) """
     query2 = """ CREATE TABLE IF NOT EXISTS adults(id INTEGER, dosage TEXT, doses_per_day INTEGER) """
     query3 = """ CREATE TABLE IF NOT EXISTS kids(id INTEGER, dosage TEXT, doses_per_day INTEGER) """
+    query4 = """ CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, telegram_id VARCHAR, age VARCHAR) """
     cursor.execute(query)
     cursor.execute(query2)
     cursor.execute(query3)
+    cursor.execute(query4)
 
     db.commit()
 
